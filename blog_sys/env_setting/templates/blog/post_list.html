@@ -45,4 +45,32 @@
     <ul>{{ category_no_nav }}</ul>
     {% endfor %}
 
+    <hr>
+
+    <h3>侧边栏:</h3>
+    {% for sidebar in SIDEBAR %}
+        {% if sidebar.display_type == 1 %}
+            <h4>HTML:</h4>
+            {% autoescape off %}
+            {{ sidebar.title }}
+            {{ sidebar.content }}
+            {% endautoescape %}
+        {% elif sidebar.display_type == 2 %}
+            <h4>最新文章:</h4>
+            {% for new_post in NEW_POST %}
+            <a href="{% url 'detail' new_post.id %}">{{ new_post.title }}</a>
+            {% endfor %}
+        {% elif sidebar.display_type == 3 %}
+            <h4>最热文章:</h4>
+            {% for hot_post in HOT_POST %}
+            <a href="{% url 'detail' hot_post.id %}">{{ hot_post.title }}</a>
+            {% endfor %}
+        {% elif sidebar.display_type == 4 %}
+            <h4>最新评论:</h4>
+            {% for hot_comment in HOT_COMMENT %}
+            <a href="{% url 'comment' hot_comment.id %}">{{ hot_comment.content }}</a>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
 </ul>

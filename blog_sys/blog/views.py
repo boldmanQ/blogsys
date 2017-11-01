@@ -8,9 +8,39 @@ from django.db import connection
 # Create your views here.
 
 from .models import Post, Tag, Category
-from config.models import SideBar
+from config.models import SideBar, Link
+from comment.models import Comment
 from pprint import pprint
 
+
+def genurous():
+    # 导航栏: category
+    Categorys = Category.objects.filter(status=1)
+    category_is_nav = []
+    category_no_nav = []
+    for i in Categorys:
+        if i.is_nav:
+            category_is_nav.append(i)
+        else:
+            category_no_nav.append(i)
+
+    # 侧边栏
+    SideBars = SideBar.objects.filter(status=1)
+    Friend_link = Link.objects.filter(status=1)
+    # HotPost = Post.objects.
+    NewPost = Post.objects.all()[:3]
+    NewComment = Comment.objects.all()[:3]
+
+    # 模版数据
+    context = {
+        'NAVIGATION_CATEGORY': category_is_nav,
+        'NO_NAVIGATION_CATEGORY': category_no_nav,
+        'SIDEBAR': SideBars,
+        'HOT_POST': '',
+        'NEW_POST': NewPost,
+        'NEW_COMMENT': NewComment,
+    }
+    return context
 
 def post_list(request, category_id=None, tag_id=None):
     '''
@@ -48,25 +78,8 @@ def post_list(request, category_id=None, tag_id=None):
 
     #pprint(Posts.object_list)
 
-    # 导航栏: category
-    Categorys = Category.objects.filter(status=1)
-    category_is_nav = []
-    category_no_nav = []
-    for i in Categorys:
-        if i.is_nav:
-            category_is_nav.append(i)
-        else:
-            category_no_nav.append(i)
-    
-
-    # 模版数据
-    context = {
-        'POST': Posts,
-        'NAVIGATION_CATEGORY': category_is_nav,
-        'NO_NAVIGATION_CATEGORY': category_no_nav,
-    }
-
-    print connection.queries
+    context = genurous()
+    context.update({'POST': Posts})
     return render(request, 'blog/post_list.html', context=context)
 
 
@@ -80,7 +93,7 @@ def post_detail(request, pk=None):
     queryset = Post.objects.get(id=pk)
     pprint(queryset.title)
     print '-----------------------'
-    context = {
-        'post': queryset,
-    }
+
+    context = genurous()
+    context.update({'POST': queryset})
     return render(request, 'blog/post_detail.html', context=context)

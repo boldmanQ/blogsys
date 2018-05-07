@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from markdown import markdown
+from django.db.models import F
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -16,24 +18,39 @@ class Post(models.Model):
 
     title = models.CharField(max_length=50, null=True, blank=True, verbose_name='标题')
     describe = models.CharField(max_length=128, blank=True, verbose_name='摘要')
-    content = models.TextField(verbose_name='正文', help_text='正文必须未markdown格式')
+    content = models.TextField(verbose_name='正文', help_text='正文必须为非markdown格式')
+    content_html = models.TextField(verbose_name='markdown形式正文', default='')
+    is_markdown = models.BooleanField(default=True, verbose_name='是否启用markdown解释')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     category = models.ForeignKey('Category', verbose_name='分类')
     tag = models.ManyToManyField('Tag', related_name='mytags', verbose_name='标签')
     owner = models.ForeignKey(User, verbose_name='作者')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    pv = models.PositiveIntegerField(verbose_name='访问量', default=0)
+    uv = models.PositiveIntegerField(verbose_name='用户量', default=0)
 
-    '''
-    fieldsets = [
-        (None, {'fields': ['title', 'tag', 'owner', 'created_time'],}),
-        (),
-        ]
-    '''
-#    def show_status(self):
-#        return '当前状态:%s' % self.status
+    def show_status(self):
+       return '当前状态:%s' % self.status
+
+    def increase_pv(self):
+        return self.__class__.objects.filter(id=self.id ).update(pv=F('pv') + 1)
+
+    def increase_uv(self):
+        return self.__class__.objects.filter(id=self.id ).update(pv=F('uv') + 1)
 
     def __unicode__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.is_markdown:
+            config = {
+                'codehilite': {
+                    'use_pygments': False,
+                    'css_class': 'prettyprint linenums',
+                }
+            }
+            self.content_html = markdown(self.content, extensions=['codehilite'], extension_configs=config)
+        return super(Post, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = verbose_name_plural = '文章'
@@ -73,4 +90,3 @@ class Tag(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = '标签'
-

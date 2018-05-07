@@ -1,0 +1,56 @@
+{% extends "./base.html" %}
+{% block content %}
+    {% if query %}
+        <div>
+    您搜索的关键词: {{ query }} <br>结果如下：
+        </div>
+
+        <hr/>
+    {% endif %}
+
+    {% if POST %}
+    {% for post in POST %}
+        <div class="post-element">
+        <h3 class="post-element-title">
+            <a href="{% url 'detail' post.id %}">{{ post.title }} </a>
+        </h3>
+        <div>
+        <nav class="nav">
+            分类:<a class="nav-link post-element-nav" href="{% url 'category' post.category_id %}">{{ post.category.name }}</a>
+            标签:<a class="nav-link post-element-nav" href="#">
+                {% for tag in post.tag.all %} {{ tag.name }} {% endfor %}
+            </a>
+            作者:<a class="nav-link post-element-nav" href="{% url 'author' post.owner_id %}">{{ post.owner }}</a>
+            创建时间:<a class="nav-link post-element-nav" href=#">{{ post.created_time }}</a>
+        </nav>
+        </div>
+
+<div class="container post-element-desc">
+    <p>
+    摘要: {{ post.describe }}
+    </p>
+</div>
+</div>
+{% endfor %}
+
+{% if page_obj.has_previous %}
+    {% if query %}
+        <a href="?page={{ page_obj.previous_page_number }}&query={{ query }}">上一页</a>
+    {% else %}
+        <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
+    {% endif %}
+{% endif %}
+Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+{% if page_obj.has_next %}
+    {% if query %}
+    <a href="?page={{ page_obj.next_page_number }}&query={{ query }}">下一页</a>
+    {% else %}
+        <a href="?page={{ page_obj.next_page_number }}">下一页</a>
+    {% endif %}
+{% endif %}
+
+{% else %}
+Empty!!
+{% endif %}
+
+{% endblock %}

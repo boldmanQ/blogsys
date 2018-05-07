@@ -1,0 +1,15 @@
+<div class="comment">
+    <form class="form-group" action="/comment/" method="POST">
+        {% csrf_token %}
+        {{ comment_form }}
+        <input type="submit" value="提交"/>
+    </form>
+</div>
+<div class="comment-list">
+    {% for comment in comment_list %}
+        <hr/>
+    <a href="{{ comment.website }}">{{ comment.nickname }}</a> <span>{{ comment.created_time }}</span>
+        <br/>
+        {{ comment.content }}
+    {% endfor %}
+</div>

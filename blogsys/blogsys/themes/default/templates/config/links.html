@@ -1,0 +1,27 @@
+{% extends "../blog/base.html" %}
+
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Logo</th>
+            <th scope="col">网站</th>
+            <th scope="col">描述</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for link in links %}
+            <tr>
+                <td><img height="25" src="{{ link.href }}/favicon.ico"/></td>
+                <td><a href="{{ link.href }}">{{ link.title }}</a></td>
+                <td>{{ link.desc }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'comment/content_form.html' %}
+
+{% endblock %}

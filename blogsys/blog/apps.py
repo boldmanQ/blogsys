@@ -5,4 +5,4 @@ from django.apps import AppConfig
 
 
 class BlogConfig(AppConfig):
-    name = '博客系统'
+    name = 'blog'

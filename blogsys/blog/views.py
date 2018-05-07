@@ -1,99 +1,110 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.core.paginator import Paginator, EmptyPage
-from django.db import connection
+from django.views.generic import ListView, DetailView
 # Create your views here.
 
 from .models import Post, Tag, Category
 from config.models import SideBar, Link
+from comment.forms import CommentForm
 from comment.models import Comment
+from blogsys.public_mixin import CommentShowMixin
 from pprint import pprint
 
 
-def genurous():
-    # 导航栏: category
-    Categorys = Category.objects.filter(status=1)
-    category_is_nav = []
-    category_no_nav = []
-    for i in Categorys:
-        if i.is_nav:
-            category_is_nav.append(i)
-        else:
-            category_no_nav.append(i)
+class CommonMixin(object):
+    def get_context_data(self, **kwargs):
+        # context = super(CommonMixin, self).get_context_data()
+        categories = Category.objects.filter(status=1)
 
-    # 侧边栏
-    SideBars = SideBar.objects.filter(status=1)
-    Friend_link = Link.objects.filter(status=1)
-    # HotPost = Post.objects.
-    NewPost = Post.objects.all()[:3]
-    NewComment = Comment.objects.all()[:3]
+        nav_cates = []
+        cates = []
+        for cate in categories:
+            if cate.is_nav:
+                nav_cates.append(cate)
+            else:
+                cates.append(cate)
 
-    # 模版数据
-    context = {
-        'NAVIGATION_CATEGORY': category_is_nav,
-        'NO_NAVIGATION_CATEGORY': category_no_nav,
-        'SIDEBAR': SideBars,
-        'HOT_POST': '',
-        'NEW_POST': NewPost,
-        'NEW_COMMENT': NewComment,
-    }
-    return context
+        side_bars = SideBar.objects.filter(status=1)
 
-def post_list(request, category_id=None, tag_id=None):
-    '''
-    首页(列表页)
-    '''
-    PostData = Post.objects.all()
-    # 分类页面
-    if category_id:
-        PostData = Post.objects.filter(category_id=category_id)
-    # 标签页面
-    elif tag_id:
-        # queryset = Post.objects.filter(tag=tag_id)
-        PostData = Tag.objects.get(id=tag_id)
-        if PostData:
-            PostData = PostData.mytags.all()
-        else:
-            PostData = []
-        # queryset = Post.objects.filter(tag=tag_id)
-        # queryset = queryset.filter(tag_id=tag_id)
+        recently_posts = Post.objects.filter(status=1)[:10]
+        recently_comments = Comment.objects.all()[:10]
 
-    # 分页部分
-    page = request.GET.get('page', 1)
-    page_size = 4
-    try:
-        Page = int(page)
-    except TypeError:
-        Page = 1
-    paginator = Paginator(PostData, page_size)
+        extra_context = {
+            'NAVIGATION_CATEGORY': nav_cates,
+            'NO_NAVIGATION_CATEGORY': cates,
+            'SIDEBAR': side_bars,
+            'HOT_POST': '',
+            'NEW_POST': recently_posts,
+            'NEW_COMMENT': recently_comments,
+        }
 
-    try:
-        Posts = paginator.page(page)
-    except EmptyPage:
-        Posts = paginator.page(paginator.num_pages)
-    #pprint(dir(Posts))
-
-    #pprint(Posts.object_list)
-
-    context = genurous()
-    context.update({'POST': Posts})
-    return render(request, 'blog/post_list.html', context=context)
+        extra_context.update(kwargs)
+        return super(CommonMixin, self).get_context_data(**extra_context)
 
 
-def post_detail(request, pk=None):
-    '''
-    文章详情页面
-    ''' 
-    print '-----------------------'
-    pprint(dir(request))
-    pprint(pk)
-    queryset = Post.objects.get(id=pk)
-    pprint(queryset.title)
-    print '-----------------------'
+class BasePostView(CommonMixin, ListView):
+    model = Post
+    template_name = 'blog/list.html'
+    context_object_name = 'POST'
+    paginate_by = 10
 
-    context = genurous()
-    context.update({'POST': queryset})
-    return render(request, 'blog/post_detail.html', context=context)
+
+class IndexView(BasePostView):
+    def get_queryset(self):
+        query = self.request.GET.get('query')
+        qs = super(IndexView, self).get_queryset()
+        if not query:
+            return qs
+        res = qs.filter(title__icontains=query)
+        return res
+
+    def get_context_data(self, **kwargs):
+        query = self.request.GET.get('query')
+        return super(IndexView, self).get_context_data(query=query)
+
+
+class CategoryView(BasePostView):
+    def get_queryset(self):
+        qs = super(CategoryView, self).get_queryset()
+        print self.kwargs
+        cate_id = self.kwargs['category_id']
+        print cate_id
+        qs = qs.filter(category_id=cate_id)
+        return qs
+
+
+class TagView(BasePostView):
+    def get_queryset(self):
+        tag_id = self.kwargs['tag_id']
+        try:
+            tag = Tag.objects.get(id=tag_id)
+        except Tag.DoesNotExist:
+            return []
+        posts = tag.mytags.all()
+        return posts
+
+
+class PostView(CommonMixin, CommentShowMixin, DetailView):
+    model = Post
+    template_name = 'blog/detail.html'
+    context_object_name = 'POST'
+
+    def get(self, request, *args, **kwargs):
+        response = super(PostView, self).get(request, *args, **kwargs)
+
+        self.pv_uv()
+        return response
+
+    def pv_uv(self):
+        #增加pv
+        self.object.increase_pv()
+        self.object.increase_uv()
+
+class AuthorView(BasePostView):
+    def get_queryset(self):
+        author_id = self.kwargs.get('author_id')
+        qs = super(AuthorView, self).get_queryset()
+        if author_id:
+            qs = qs.filter(owner_id=author_id)
+        return qs

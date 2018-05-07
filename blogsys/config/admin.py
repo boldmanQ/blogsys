@@ -6,8 +6,8 @@ from django.utils.html import format_html
 from django.core.urlresolvers import reverse
 
 # Register your models here.
-from env_setting.custom_site import custom_site
-from env_setting.custom_admin import BaseOwnerAdmin
+from blogsys.custom_site import custom_site
+from blogsys.custom_admin import BaseOwnerAdmin
 from .models import Link, SideBar
 
 

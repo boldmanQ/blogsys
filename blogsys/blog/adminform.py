@@ -1,4 +1,6 @@
-# coding: utf-8
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# author:zq time:2018/3/1
 
 from django import forms
 

@@ -1,0 +1,58 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block style%}
+<link href="{% static 'css/prettify.css' %}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/desert.css' %}">
+<style>
+.linenums li {
+    background-color: inherit;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+<nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">首页</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'category' POST.category_id %}">{{ POST.category }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">正文</li>
+    </ol>
+</nav>
+
+
+<div class="post-element">
+    <h3 class="post-element-title">
+        {{ post.title }}
+    </h3>
+
+    <nav class="nav">
+        分类:<a class="nav-link active post-element-nav" href="{% url 'category' POST.category_id %}">{{ POST.category.name }}</a>
+        标签:<a class="nav-link cative post-element-nav" href="#">
+            {% for tag in POST.tag.all %} {{ tag.name }} {% endfor %}
+        </a>
+        作者:<a class="nav-link active post-element-nav" href="#">{{ POST.owner }}</a>
+        创建时间:<a class="nav-link disabled post-element-nav" href="#">{{ POST.created_time }}</a>
+    </nav>
+
+    <article class="content">
+        {% autoescape off %}
+        {{ POST.content_html }}
+        {% endautoescape %}
+    </article>
+    {% include 'comment/content_form.html' %}
+</div>
+{% endblock %}
+
+
+{% block javascript%}
+{#<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=doxy"></script>"></script>#}
+<script src="{% static 'js/prettify.js' %}"></script>"></script>
+<script>
+window.onload = function(){
+    PR.prettyPrint();
+}
+</script>
+{% endblock %}
+

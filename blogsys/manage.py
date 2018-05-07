@@ -3,8 +3,8 @@ import os
 import sys
 
 if __name__ == "__main__":
-    profile = os.environ.setdefault('DJANGO_ENVIROM_FILE', 'develop')
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "env_setting.settings.%s" % profile)
+    profile = os.environ.setdefault('DJANGO_ENVIRON_FILE', 'develop')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "blogsys.settings.%s" % profile)
     try:
         from django.core.management import execute_from_command_line
     except ImportError:

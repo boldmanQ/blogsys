@@ -1,4 +1,6 @@
-# coding: utf-8
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# author:zq time:2018/3/15
 
 from __future__ import unicode_literals
 
@@ -19,6 +21,7 @@ class BaseOwnerAdmin(admin.ModelAdmin):
         return queryset.filter(owner=request.user)
 
     def save_model(self, request, obj, form, change):
-        print(self, request, obj, form, change)
+        #print(self, request, obj, form, change)
         obj.owner = request.user
         return super(BaseOwnerAdmin, self).save_model(request, obj, form, change)
+11

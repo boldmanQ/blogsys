@@ -4,5 +4,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class ReviewsConfig(AppConfig):
-    name = '评论系统'
+class CommentConfig(AppConfig):
+    name = 'comment'

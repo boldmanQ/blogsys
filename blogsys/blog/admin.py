@@ -7,9 +7,9 @@ from django.core.urlresolvers import reverse
 
 # Register your models here.
 from .models import Post, Category, Tag
-from env_setting.custom_site import custom_site
-from env_setting.custom_admin import BaseOwnerAdmin
-from .adminforms import PostAdminForm
+from blogsys.custom_site import custom_site
+from blogsys.custom_admin import BaseOwnerAdmin
+from .adminform import PostAdminForm
 
 from pprint import pprint
 
@@ -44,7 +44,7 @@ class PostAdmin(BaseOwnerAdmin):
     filter_horizontal = ('tag',)
     fieldsets = [
         ('基础信息', {'fields': [('title', 'category'), 'status', 'tag', 'describe'], }),
-        ('文章内容', {'fields': ['content', ], 'classes': ['collapse', ]}),
+        ('文章内容', {'fields': [('content', 'is_markdown'), 'content_html'], 'classes': ['', ]}),
     ]
 
     def get_tag(self, obj):
@@ -85,9 +85,10 @@ class PostAdmin(BaseOwnerAdmin):
 
 
 class PostInlineAdmin(admin.TabularInline):
-    fields = ('title', 'status')
+    fields = ('title', 'status', 'owner')
     extra = 3
     model = Post
+
 
 
 @admin.register(Category, site=custom_site)
@@ -95,7 +96,7 @@ class CategoryAdmin(BaseOwnerAdmin):
     inlines = [
         PostInlineAdmin,
     ]
-    list_display = ['name', 'created_time', 'status']
+    list_display = ['name', 'created_time', 'status', 'owner']
 
 
 @admin.register(Tag, site=custom_site)

@@ -36,7 +36,7 @@ class Post(models.Model):
         return self.__class__.objects.filter(id=self.id ).update(pv=F('pv') + 1)
 
     def increase_uv(self):
-        return self.__class__.objects.filter(id=self.id ).update(pv=F('uv') + 1)
+        return self.__class__.objects.filter(id=self.id ).update(uv=F('uv') + 1)
 
     def __unicode__(self):
         return self.title

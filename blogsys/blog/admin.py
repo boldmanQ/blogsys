@@ -25,6 +25,8 @@ class PostAdmin(BaseOwnerAdmin):
         'owner',
         'created_time',
         'edit_operator',
+        'pv',
+        'uv',
     ]
 #    list_display_links = ['category', 'edit_operator']
     list_display_links = []

@@ -16,7 +16,7 @@
 <nav aria-label="breadcrumb" role="navigation">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">首页</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'category' POST.category_id %}">{{ POST.category }}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'category' POST.category_id %}">{{ POST.category }}</a></li
         <li class="breadcrumb-item active" aria-current="page">正文</li>
     </ol>
 </nav>
@@ -34,6 +34,7 @@
         </a>
         作者:<a class="nav-link active post-element-nav" href="#">{{ POST.owner }}</a>
         创建时间:<a class="nav-link disabled post-element-nav" href="#">{{ POST.created_time }}</a>
+        访问量:<a class="nav-link active post-element-nav" href="#">{{ POST.pv }}/{{ POST.uv }}</a>
     </nav>
 
     <article class="content">

@@ -75,8 +75,8 @@
                                 {% endfor %}
 
                                 {% elif sidebar.display_type == 4 %}
-                                {% for hot_comment in HOT_COMMENT %}
-                                <a href="{% url 'comment' hot_comment.id %}">{{ hot_comment.content }}</a>
+                                {% for new_comment in NEW_COMMENT %}
+                                <a href="{{ new_comment.target }}">{{ new_comment.content }}</a>
                                 {% endfor %}
 
                                 {% endif %}
@@ -86,7 +86,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         </div>
 
         <footer class="footer">

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.core.cache import cache
 from django.views.generic import ListView, DetailView
 # Create your views here.
 
 from .models import Post, Tag, Category
 from config.models import SideBar, Link
-from comment.forms import CommentForm
 from comment.models import Comment
 from blogsys.public_mixin import CommentShowMixin
 from pprint import pprint
@@ -28,13 +28,14 @@ class CommonMixin(object):
         side_bars = SideBar.objects.filter(status=1)
 
         recently_posts = Post.objects.filter(status=1)[:10]
-        recently_comments = Comment.objects.all()[:10]
+        recently_comments = Comment.objects.all()[:5]
+        hot_posts = Post.objects.order_by('-pv')[:5]
 
         extra_context = {
             'NAVIGATION_CATEGORY': nav_cates,
             'NO_NAVIGATION_CATEGORY': cates,
             'SIDEBAR': side_bars,
-            'HOT_POST': '',
+            'HOT_POST': hot_posts,
             'NEW_POST': recently_posts,
             'NEW_COMMENT': recently_comments,
         }
@@ -92,14 +93,27 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         response = super(PostView, self).get(request, *args, **kwargs)
-
         self.pv_uv()
         return response
 
     def pv_uv(self):
-        #增加pv
-        self.object.increase_pv()
-        self.object.increase_uv()
+        #增加pv, 半小时内重复请求无效
+        #增加uv，24小时内重复请求无效
+
+        post_path = self.request.path
+        sessionid = getattr(self.request.COOKIES, 'sessionid', None)
+        if not sessionid:
+            return
+
+        pv_key = 'pv_key:%s,%s' % (post_path, sessionid)
+        uv_key = 'uv_key:%s,%s' % (post_path, sessionid)
+        if not cache.get(pv_key):
+            self.object.increase_pv()
+            cache.set(pv_key, 1, 60 * 30)
+        if not cache.get(uv_key):
+            self.object.increase_uv()
+            cache.set(uv_key, 1, 60 * 60 * 24)
+
 
 class AuthorView(BasePostView):
     def get_queryset(self):

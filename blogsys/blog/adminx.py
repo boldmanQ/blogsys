@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib import admin
+import xadmin
 from django.utils.html import format_html
 from django.core.urlresolvers import reverse
 
 # Register your models here.
 from .models import Post, Category, Tag
-from blogsys.custom_site import custom_site
-from blogsys.custom_admin import BaseOwnerAdmin
 from .adminform import PostAdminForm
+from blogsys.adminx import BaseOwnerAdmin
 
 from pprint import pprint
 
 
-@admin.register(Post, site=custom_site)
 class PostAdmin(BaseOwnerAdmin):
     form = PostAdminForm
     list_display = [
@@ -83,25 +81,19 @@ class PostAdmin(BaseOwnerAdmin):
     #    obj.owner = request.user
 
     #    return super(PostAdmin, self).save_model(request, obj, form, change)
-# custom_site.register(Post)
-
-
-class PostInlineAdmin(admin.TabularInline):
-    fields = ('title', 'status', 'owner')
-    extra = 3
-    model = Post
 
 
 
-@admin.register(Category, site=custom_site)
 class CategoryAdmin(BaseOwnerAdmin):
-    inlines = [
-        PostInlineAdmin,
-    ]
     list_display = ['name', 'created_time', 'status', 'owner']
+    fields = (
+        'name', 'status',
+        'is_nav',
+    )
+xadmin.site.register(Category, CategoryAdmin)
 
 
-@admin.register(Tag, site=custom_site)
 class TagAdmin(BaseOwnerAdmin):
     list_display = ['name', 'status', 'owner']
     fields = ('name', 'status')
+xadmin.site.register(Tag, TagAdmin)

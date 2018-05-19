@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 
 import xadmin
+from xadmin.views import CommAdminView
 from django.contrib import admin
 
 
@@ -23,7 +24,13 @@ class BaseOwnerAdmin(object):
         return queryset.filter(owner=request.user)
 
     def save_models(self):
-        #print(self, request, obj, form, change)
-        obj.owner = self.request.user
-        return super(BaseOwnerAdmin, self).save_model(request, obj, form, change)
-11
+        # import pdb;pdb.set_trace()
+        if not self.org_obj:
+            self.new_obj.owner = self.request.user
+        return super(BaseOwnerAdmin, self).save_models()
+
+
+class XAdminGlobalSetting(object):
+    site_title = '車乞的博客后台'
+    site_footer = 'power by zhangqianlinux@qq.com'
+xadmin.site.register(CommAdminView, XAdminGlobalSetting)

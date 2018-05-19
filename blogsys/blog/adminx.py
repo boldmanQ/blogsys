@@ -14,7 +14,7 @@ from pprint import pprint
 
 
 class PostAdmin(BaseOwnerAdmin):
-    form = PostAdminForm
+    # form = PostAdminForm
     list_display = [
         'title',
         'category',
@@ -22,11 +22,9 @@ class PostAdmin(BaseOwnerAdmin):
         'show_status',
         'owner',
         'created_time',
-        'edit_operator',
         'pv',
         'uv',
     ]
-#    list_display_links = ['category', 'edit_operator']
     list_display_links = []
     # list_editable = ['title']
     search_fields = ['category__name']
@@ -59,29 +57,13 @@ class PostAdmin(BaseOwnerAdmin):
     #     return ('%s' % obj.created_time).upper()
     # upper_title.short_description = '自定义'
 
-    def edit_operator(self, obj):
-        return format_html(
-            '<a href="{}">编辑</a>',
-            reverse('cus_admin:blog_post_change', args=(obj.id,))
-        )
-    # edit_operator.allow_tags = True    已废弃，当返回不采用format_html时进行url转义
-    edit_operator.short_description = '操作'
-
     def show_status(self, obj):
         if obj.status == 1:
             return '正常'
         else:
             return '异常'
     show_status.short_description = '状态'
-
-    # 通过BaseOwnerAdmin改写
-    # def save_model(self, request, obj, form, change):
-    #    print(self, request, obj, form, change)
-    #    #import pdb;pdb.set_trace()
-    #    obj.owner = request.user
-
-    #    return super(PostAdmin, self).save_model(request, obj, form, change)
-
+xadmin.site.register(Post, PostAdmin)
 
 
 class CategoryAdmin(BaseOwnerAdmin):

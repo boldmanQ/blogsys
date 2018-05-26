@@ -1,16 +1,18 @@
 import xadmin
-xadmin.autodiscover()
 from xadmin.plugins import xversion
-xversion.register_models()
 
-
-from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
+from django.conf.urls import url, include
 
 from blog.views import IndexView, CategoryView, TagView, PostView, AuthorView
 from config.views import LinkView
 from comment.views import CommentView
 # from config.views import links
 
+
+xversion.register_models()
+xadmin.autodiscover()
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name="index"),
@@ -22,5 +24,5 @@ urlpatterns = [
     url(r'^admin/', xadmin.site.urls),
     # url(r'^cus_admin/', custom_site.urls),
     url(r'^comment/$', CommentView.as_view(), name="Comment"),
-    #url(r'^polls/', include('practice.urls')),
-]
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

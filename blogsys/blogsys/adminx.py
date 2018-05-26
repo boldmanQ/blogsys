@@ -6,7 +6,6 @@ from __future__ import unicode_literals
 
 import xadmin
 from xadmin.views import CommAdminView
-from django.contrib import admin
 
 
 class BaseOwnerAdmin(object):
@@ -14,8 +13,6 @@ class BaseOwnerAdmin(object):
     1.用来处理文章、分类、标签、侧边栏、友链这些model的owner子段自动补充
     2.用来针对queryset过滤当前用户的数据
     '''
-    exclude = ('owner', )
-
     def get_list_queryset(self):
         request = self.request
         queryset = super(BaseOwnerAdmin, self).get_list_queryset()
@@ -33,4 +30,6 @@ class BaseOwnerAdmin(object):
 class XAdminGlobalSetting(object):
     site_title = '車乞的博客后台'
     site_footer = 'power by zhangqianlinux@qq.com'
+
+
 xadmin.site.register(CommAdminView, XAdminGlobalSetting)

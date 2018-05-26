@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Comment(models.Model):
-    target = models.CharField(max_length=200, verbose_name='评论目标')
+    target = models.CharField(max_length=200, verbose_name='评论目标', default='')
     content = models.CharField(max_length=2000, verbose_name='评论内容')
     nickname = models.CharField(max_length=50, verbose_name='昵称')
     website = models.URLField(verbose_name='网站')

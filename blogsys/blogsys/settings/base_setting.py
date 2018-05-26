@@ -29,6 +29,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'reversion',
 
+    'ckeditor',
+    'ckeditor_uploader',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -106,8 +109,7 @@ THEME_TEMPLATE_DIR = 'themes/default'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, THEME_TEMPLATE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, THEME_TEMPLATE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,3 +126,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, THEME_TEMPLATE_DIR, 'static')
 ]
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': 1000,
+    },
+}
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+CKEDITOR_UPLOAD_PATH = "images"
+DEFAULT_FILE_STORAGE = 'blogsys.storage.MyStorage'

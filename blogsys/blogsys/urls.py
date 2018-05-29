@@ -1,3 +1,5 @@
+import debug_toolbar
+import silk
 import xadmin
 from xadmin.plugins import xversion
 from rest_framework import routers, documentation
@@ -35,4 +37,12 @@ urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^api/docs/', documentation.include_docs_urls(title='blogsys apis')),
+    url(r'^silk/', include('silk.urls', namespace='silk')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]

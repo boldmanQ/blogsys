@@ -6,7 +6,7 @@ from blog.views import CommonMixin
 
 from .models import Link
 from comment.forms import CommentForm
-# Create your views here.
+
 
 class LinkView(CommonMixin, ListView):
     queryset = Link.objects.filter(status=1)

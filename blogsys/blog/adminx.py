@@ -2,19 +2,17 @@
 from __future__ import unicode_literals
 
 import xadmin
-from django.utils.html import format_html
-from django.core.urlresolvers import reverse
+#from django.utils.html import format_html
+#from django.core.urlresolvers import reverse
 
 # Register your models here.
 from .models import Post, Category, Tag
 from .adminform import PostAdminForm
 from blogsys.adminx import BaseOwnerAdmin
 
-from pprint import pprint
-
 
 class PostAdmin(BaseOwnerAdmin):
-    # form = PostAdminForm
+    form = PostAdminForm
     list_display = [
         'title',
         'category',
@@ -25,6 +23,7 @@ class PostAdmin(BaseOwnerAdmin):
         'pv',
         'uv',
     ]
+    exclude = ('owner',)
     list_display_links = []
     # list_editable = ['title']
     search_fields = ['category__name']
@@ -63,7 +62,6 @@ class PostAdmin(BaseOwnerAdmin):
         else:
             return '异常'
     show_status.short_description = '状态'
-xadmin.site.register(Post, PostAdmin)
 
 
 class CategoryAdmin(BaseOwnerAdmin):
@@ -72,10 +70,13 @@ class CategoryAdmin(BaseOwnerAdmin):
         'name', 'status',
         'is_nav',
     )
-xadmin.site.register(Category, CategoryAdmin)
 
 
 class TagAdmin(BaseOwnerAdmin):
     list_display = ['name', 'status', 'owner']
     fields = ('name', 'status')
+
+
+xadmin.site.register(Post, PostAdmin)
+xadmin.site.register(Category, CategoryAdmin)
 xadmin.site.register(Tag, TagAdmin)

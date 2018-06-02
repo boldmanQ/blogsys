@@ -30,13 +30,13 @@ class Post(models.Model):
     uv = models.PositiveIntegerField(verbose_name='用户量', default=0)
 
     def show_status(self):
-       return '当前状态:%s' % self.status
+        return '当前状态:%s' % self.status
 
     def increase_pv(self):
-        return self.__class__.objects.filter(id=self.id ).update(pv=F('pv') + 1)
+        return self.__class__.objects.filter(id=self.id).update(pv=F('pv') + 1)
 
     def increase_uv(self):
-        return self.__class__.objects.filter(id=self.id ).update(uv=F('uv') + 1)
+        return self.__class__.objects.filter(id=self.id).update(uv=F('uv') + 1)
 
     def __unicode__(self):
         return self.title

@@ -51,11 +51,6 @@ class PostAdmin(BaseOwnerAdmin):
         return '、'.join([Mobj.name for Mobj in obj.tag.all()])
     get_tag.short_description = '标签'
 
-    # 大写title
-    # def upper_title(self, obj):
-    #     return ('%s' % obj.created_time).upper()
-    # upper_title.short_description = '自定义'
-
     def show_status(self, obj):
         if obj.status == 1:
             return '正常'

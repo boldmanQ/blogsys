@@ -68,9 +68,7 @@ class IndexView(BasePostView):
 class CategoryView(BasePostView):
     def get_queryset(self):
         qs = super(CategoryView, self).get_queryset()
-        print self.kwargs
         cate_id = self.kwargs['category_id']
-        print cate_id
         qs = qs.filter(category_id=cate_id)
         return qs
 

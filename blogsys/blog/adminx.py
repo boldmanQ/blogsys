@@ -1,22 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib import admin
+import xadmin
 from django.utils.html import format_html
 from django.core.urlresolvers import reverse
 
 # Register your models here.
 from .models import Post, Category, Tag
-from blogsys.custom_site import custom_site
-from blogsys.custom_admin import BaseOwnerAdmin
 from .adminform import PostAdminForm
+from blogsys.adminx import BaseOwnerAdmin
 
 from pprint import pprint
 
 
-@admin.register(Post, site=custom_site)
 class PostAdmin(BaseOwnerAdmin):
-    form = PostAdminForm
+    # form = PostAdminForm
     list_display = [
         'title',
         'category',
@@ -24,11 +22,9 @@ class PostAdmin(BaseOwnerAdmin):
         'show_status',
         'owner',
         'created_time',
-        'edit_operator',
         'pv',
         'uv',
     ]
-#    list_display_links = ['category', 'edit_operator']
     list_display_links = []
     # list_editable = ['title']
     search_fields = ['category__name']
@@ -61,47 +57,25 @@ class PostAdmin(BaseOwnerAdmin):
     #     return ('%s' % obj.created_time).upper()
     # upper_title.short_description = '自定义'
 
-    def edit_operator(self, obj):
-        return format_html(
-            '<a href="{}">编辑</a>',
-            reverse('cus_admin:blog_post_change', args=(obj.id,))
-        )
-    # edit_operator.allow_tags = True    已废弃，当返回不采用format_html时进行url转义
-    edit_operator.short_description = '操作'
-
     def show_status(self, obj):
         if obj.status == 1:
             return '正常'
         else:
             return '异常'
     show_status.short_description = '状态'
-
-    # 通过BaseOwnerAdmin改写
-    # def save_model(self, request, obj, form, change):
-    #    print(self, request, obj, form, change)
-    #    #import pdb;pdb.set_trace()
-    #    obj.owner = request.user
-
-    #    return super(PostAdmin, self).save_model(request, obj, form, change)
-# custom_site.register(Post)
+xadmin.site.register(Post, PostAdmin)
 
 
-class PostInlineAdmin(admin.TabularInline):
-    fields = ('title', 'status', 'owner')
-    extra = 3
-    model = Post
-
-
-
-@admin.register(Category, site=custom_site)
 class CategoryAdmin(BaseOwnerAdmin):
-    inlines = [
-        PostInlineAdmin,
-    ]
     list_display = ['name', 'created_time', 'status', 'owner']
+    fields = (
+        'name', 'status',
+        'is_nav',
+    )
+xadmin.site.register(Category, CategoryAdmin)
 
 
-@admin.register(Tag, site=custom_site)
 class TagAdmin(BaseOwnerAdmin):
     list_display = ['name', 'status', 'owner']
     fields = ('name', 'status')
+xadmin.site.register(Tag, TagAdmin)

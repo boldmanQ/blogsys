@@ -1,4 +1,4 @@
-from .base_setting import *
+from .base_setting import * # noqa
 
 
 # Database
@@ -7,7 +7,7 @@ from .base_setting import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'), # noqa
     }
 }
 CACHES = {
@@ -21,3 +21,12 @@ CACHES = {
     }
 }
 DEBUG = True
+
+INSTALLED_APPS += [ # noqa
+    'debug_toolbar',
+]
+MIDDLEWARE += [ # noqa
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'silk.middleware.SilkyMiddleware',
+]
+INTERNAL_IPS = ['*.*.*.*']

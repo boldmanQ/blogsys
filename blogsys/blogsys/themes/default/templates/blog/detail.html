@@ -4,6 +4,7 @@
 {% block style%}
 <link href="{% static 'css/prettify.css' %}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/desert.css' %}">
+
 <style>
 .linenums li {
     background-color: inherit;
@@ -48,12 +49,10 @@
 
 
 {% block javascript%}
-{#<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=doxy"></script>"></script>#}
-<script src="{% static 'js/prettify.js' %}"></script>"></script>
+<script src="{% static 'js/prettify.js' %}"></script>
 <script>
 window.onload = function(){
     PR.prettyPrint();
 }
 </script>
 {% endblock %}
-

@@ -34,7 +34,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
-    'silk',
+    #'silk',
 
     'django.contrib.admin',
     'django.contrib.auth',

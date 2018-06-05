@@ -1,23 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
-#from silk.profiling.profiler import silk_profile
+import uuid
 
 from django.core.cache import cache
 from django.views.generic import ListView, DetailView
-# Create your views here.
 
 from .models import Post, Tag, Category
 from config.models import SideBar, Link
 from comment.models import Comment
 from blogsys.public_mixin import CommentShowMixin
-from pprint import pprint
 
 
 class CommonMixin(object):
-    #@silk_profile(name='get_context_data')
     def get_context_data(self, **kwargs):
-        # context = super(CommonMixin, self).get_context_data()
         categories = Category.objects.filter(status=1)
 
         nav_cates = []
@@ -52,6 +47,12 @@ class BasePostView(CommonMixin, ListView):
     template_name = 'blog/list.html'
     context_object_name = 'POST'
     paginate_by = 10
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super(BasePostView, self).render_to_response(context, **response_kwargs)
+        if 'sessionid' not in self.request.COOKIES:
+            response.set_cookie('sessionid', uuid.uuid4().hex)
+        return response
 
 
 class IndexView(BasePostView):
@@ -102,10 +103,11 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
         #增加uv，24小时内重复请求无效
 
         post_path = self.request.path
-        sessionid = getattr(self.request.COOKIES, 'sessionid', None)
-        if not sessionid:
+        if 'sessionid' not in self.request.COOKIES:
             return
+        sessionid = self.request.COOKIES['sessionid']
 
+        print '取到sessionid:%s' % sessionid
         pv_key = 'pv_key:%s,%s' % (post_path, sessionid)
         uv_key = 'uv_key:%s,%s' % (post_path, sessionid)
         if not cache.get(pv_key):

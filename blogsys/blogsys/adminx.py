@@ -21,7 +21,6 @@ class BaseOwnerAdmin(object):
         return queryset.filter(owner=request.user)
 
     def save_models(self):
-        # import pdb;pdb.set_trace()
         if not self.org_obj:
             self.new_obj.owner = self.request.user
         return super(BaseOwnerAdmin, self).save_models()

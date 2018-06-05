@@ -2,11 +2,10 @@
 from __future__ import unicode_literals
 
 from markdown import markdown
+
 from django.db.models import F
 from django.db import models
-
 from django.contrib.auth.models import User
-# Create your models here.
 
 
 class Post(models.Model):
@@ -72,7 +71,6 @@ class Category(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = '分类'
-#        ordering = ('id', 'created_time')
 
 
 class Tag(models.Model):

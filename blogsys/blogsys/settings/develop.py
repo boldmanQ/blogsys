@@ -22,11 +22,11 @@ CACHES = {
 }
 DEBUG = True
 
-INSTALLED_APPS += [ # noqa
-    'debug_toolbar',
-]
-MIDDLEWARE += [ # noqa
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'silk.middleware.SilkyMiddleware',
-]
-INTERNAL_IPS = ['*.*.*.*']
+#INSTALLED_APPS += [ # noqa
+#    'debug_toolbar',
+#]
+#MIDDLEWARE += [ # noqa
+#    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#    'silk.middleware.SilkyMiddleware',
+#]
+#INTERNAL_IPS = ['*.*.*.*']

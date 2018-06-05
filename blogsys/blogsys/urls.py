@@ -1,12 +1,14 @@
 import debug_toolbar
 #import silk
+import re
 import xadmin
 from xadmin.plugins import xversion
 from rest_framework import routers, documentation
 
 from django.conf import settings
-from django.conf.urls.static import static
 from django.conf.urls import url, include
+from django.views.decorators.cache import cache_page
+from django.views.static import serve
 
 from blog.views import IndexView, CategoryView, TagView, PostView, AuthorView
 from config.views import LinkView
@@ -24,8 +26,13 @@ router.register(r'cats', CategoryViewSet)
 router.register(r'tags', TagViewSet)
 router.register(r'users', UserViewSet)
 
+
+def static(prefix, view=serve, **kwargs):
+    return [url(r'^%s(?P<path>.*)$' % re.escape(prefix.lstrip('/')), view, kwargs=kwargs)]
+
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name="index"),
+    #url(r'^$', cache_page(60)(IndexView.as_view()), name="index"),
     url(r'^category/(?P<category_id>\d+)', CategoryView.as_view(), name='category'),
     url(r'^tag/(?P<tag_id>\d+)/', TagView.as_view(), name='tag'),
     url(r'^post/(?P<pk>\d+)/', PostView.as_view(), name='detail'),
@@ -37,12 +44,12 @@ urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^api/docs/', documentation.include_docs_urls(title='blogsys apis')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, serve, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, serve, document_root=settings.STATIC_ROOT)
 
-#url(r'^silk/', include('silk.urls', namespace='silk')),
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
         url(r'^__debug__/', include(debug_toolbar.urls)),
+#        url(r'^silk/', include('silk.urls', namespace='silk')),
     ]

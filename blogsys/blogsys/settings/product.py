@@ -1,8 +1,7 @@
 from .base_setting import * # noqa
 
+#import cache_toolbar.panels.redis
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -12,26 +11,30 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': 3306,
-        # 'OPTIONS': {'charset': 'utf8mb4'}
+        'OPTIONS': {'charset': 'utf8'}
     },
 }
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/tmp/django_cache',
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/',
         'TIMEOUT': 60,
         'OPTIONS': {
-            'MAX_ENTRIES': 1000
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PARSER_CLASS': 'redis.connection.HiredisParser',
         }
     }
 }
-DEBUG = False
+DEBUG = True
 
 #INSTALLED_APPS += [ # noqa
 #    'debug_toolbar',
+#    'cache_toolbar',
 #]
 #MIDDLEWARE += [ # noqa
 #    'debug_toolbar.middleware.DebugToolbarMiddleware',
 #    'silk.middleware.SilkyMiddleware',
 #]
-#INTERNAL_IPS = ['*.*.*.*']
+#INTERNAL_IPS = ['117.136.88.36']
+#DEBUG_TOOLBAR_PANELSOOLBAR_PANELS = (
+#)

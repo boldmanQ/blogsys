@@ -11,6 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "blogsys.settings")
+profile = os.environ.setdefault('DJANGO_ENVIRON_FILE', 'product')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "blogsys.settings.%s" % profile)
 
 application = get_wsgi_application()

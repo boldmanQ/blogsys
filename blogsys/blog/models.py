@@ -49,6 +49,8 @@ class Post(models.Model):
                 }
             }
             self.content_html = markdown(self.content, extensions=['codehilite'], extension_configs=config)
+        else:
+            self.content_html = self.content
         return super(Post, self).save(*args, **kwargs)
 
     class Meta:

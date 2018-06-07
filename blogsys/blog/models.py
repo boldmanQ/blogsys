@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from markdown import markdown
-
+import markdown
 from django.db.models import F
 from django.db import models
 from django.contrib.auth.models import User
@@ -48,7 +47,8 @@ class Post(models.Model):
                     'css_class': 'prettyprint linenums',
                 }
             }
-            self.content_html = markdown(self.content, extensions=['codehilite'], extension_configs=config)
+            self.content = self.content_html
+            self.content_html = markdown.markdown(self.content_html, extensions=['codehilite'], extension_configs=config)
         else:
             self.content_html = self.content
         return super(Post, self).save(*args, **kwargs)

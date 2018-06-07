@@ -92,7 +92,7 @@
                 <hr/>
                 <nav class="nav category">
                     {% for category_no_nav in NO_NAVIGATION_CATEGORY %}
-                    <a href={% url 'category' category_no_nav.id }>{{ category_no_nav }}</a>
+                    <a href={% url 'category' category_no_nav.id %}>{{ category_no_nav }}</a>
                      {% endfor %}
                 </nav>
             </div>

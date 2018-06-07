@@ -25,7 +25,7 @@ CACHES = {
         }
     }
 }
-DEBUG = True
+DEBUG = False
 
 #INSTALLED_APPS += [ # noqa
 #    'debug_toolbar',

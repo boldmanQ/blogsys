@@ -23,7 +23,6 @@ class PostAdmin(BaseOwnerAdmin):
         'pv',
         'uv',
     ]
-    exclude = ('owner',)
     list_display_links = []
     # list_editable = ['title']
     search_fields = ['category__name']

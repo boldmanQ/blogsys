@@ -6,7 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
-
+{#        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">#}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         {% block style %}
         {% endblock %}
@@ -41,63 +43,92 @@
 
         <div class="container main">
             <div class="row">
-                <div class="col-9 left-side">
-                    <div class="inner">
+                <div class="col-sm-8 left-side">
+{#                    <div class="inner">#}
                         {% block content %}
                         {% endblock %}
-                    </div>
+{#                    </div>#}
                 </div>
 
-                <div class="col-3">
+                <div class="col-sm-4">
                     <div class="container right-side">
                         {% for sidebar in SIDEBAR %}
-                        <div class="sidebar">
-                            <div class="sidebar-title">
-                                {{ sidebar.title }}
-                            </div>
-                            <div class="sidebar-content">
+                            <div>
+
                                 {% if sidebar.display_type == 1 %}
-                                {% autoescape off %}
-                                {{ sidebar.content }}
-                                {% endautoescape %}
+                        <aside class="sidebar">
+                                    <div class="sidebar-title">
+                                        {{ sidebar.title }}
+                                    </div>
+                                    {% autoescape off %}
+                                    {{ sidebar.content }}
+                                    {% endautoescape %}
+                        </aside>
 
                                 {% elif sidebar.display_type == 2 %}
-                                {% for new_post in NEW_POST %}
-                                <ul>
-                                    <a href="{% url 'detail' new_post.id %}">{{ new_post.title }}</a>
-                                </ul>
-                                {% endfor %}
+                        <aside class="sidebar">
+                                    <div class="sidebar-title">
+                                        {{ sidebar.title }}
+                                    </div>
+                                    <ul>
+                                    {% for new_post in NEW_POST %}
+                                        <li><a href="{% url 'detail' new_post.id %}">{{ new_post.title }}</a></li>
+                                    {% endfor %}
+                                    </ul>
+                        </aside>
 
                                 {% elif sidebar.display_type == 3 %}
-                                {% for hot_post in HOT_POST %}
-                                <a href="{% url 'detail' hot_post.id %}">{{ hot_post.title }}</a>
-                                {% endfor %}
-
-                                {% elif sidebar.display_type == 4 %}
-                                {% for new_comment in NEW_COMMENT %}
-                                <a href="{{ new_comment.target }}">{{ new_comment.content }}</a>
-                                {% endfor %}
-
+                        <aside class="sidebar">
+                                    <div class="sidebar-title">
+                                        {{ sidebar.title }}
+                                    </div>
+                                    <ul>
+                                    {% for hot_post in HOT_POST %}
+                                        <li><a href="{% url 'detail' hot_post.id %}">{{ hot_post.title }}</a></li>
+                                    {% endfor %}
+                                    </ul>
+                        </aside>
                                 {% endif %}
                             </div>
-                        </div>
                         {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
 
-        <footer class="footer">
+        <footer class="footer-bar">
             <div class="container">
-                <hr/>
-                <nav class="nav category">
-                    {% for category_no_nav in NO_NAVIGATION_CATEGORY %}
-                    <a href={% url 'category' category_no_nav.id %}>{{ category_no_nav }}</a>
-                     {% endfor %}
-                </nav>
-            </div>
-            <div class="container power">
-                <span>Powered by Django1.11.10</p>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="widget">
+                            <a class="widget-a-title" href="{% url 'links'  %}"><h4 class="title">友链</h4></a>
+                        <div class="footer-friend-links">
+                            {% for link in LINKS %}
+                                <a href="{{ link.href }}" title="{{ link.title }}">{{ link.title }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                        </div>
+                    <div class="col-sm-4">
+                        <div class="widget">
+                            <h4 class="title">其他分类</h4>
+                        <div class="footer-nonav-category">
+                            {% for category_no_nav in NO_NAVIGATION_CATEGORY %}
+                                <a href={% url 'category' category_no_nav.id %}>{{ category_no_nav }}</a>
+                            {% endfor %}
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="widget">
+                            <h4 class="title">声明</h4>
+                        <div class="footer-explain">
+                            <p>基于Nginx+Gunicorn+Supervisord+ Django1.11+ Python2.7构建</p>
+                            <strong>Copyright © 2018 <a href="www.boldman.top">boldman.top</a></strong>
+                        </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         {% block javascript %}

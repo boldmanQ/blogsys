@@ -136,6 +136,7 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'full',
         'height': 300,
         'width': 1000,
+        'tabSpaces': 4,
     },
 }
 MEDIA_URL = "/media/"

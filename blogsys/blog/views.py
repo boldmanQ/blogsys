@@ -25,9 +25,10 @@ class CommonMixin(object):
 
         side_bars = SideBar.objects.filter(status=1)
 
-        recently_posts = Post.objects.filter(status=1)[:10]
-        recently_comments = Comment.objects.all()[:5]
-        hot_posts = Post.objects.order_by('-pv')[:5]
+        recently_posts = Post.objects.filter(status=1)[:7]
+        # recently_comments = Comment.objects.all()[:5]
+        hot_posts = Post.objects.order_by('-pv')[:7]
+        links = Link.objects.all()
 
         extra_context = {
             'NAVIGATION_CATEGORY': nav_cates,
@@ -35,7 +36,8 @@ class CommonMixin(object):
             'SIDEBAR': side_bars,
             'HOT_POST': hot_posts,
             'NEW_POST': recently_posts,
-            'NEW_COMMENT': recently_comments,
+            'LINKS': links,
+            # 'NEW_COMMENT': recently_comments,
         }
 
         extra_context.update(kwargs)
@@ -46,7 +48,7 @@ class BasePostView(CommonMixin, ListView):
     model = Post
     template_name = 'blog/list.html'
     context_object_name = 'POST'
-    paginate_by = 10
+    paginate_by = 5
 
     def render_to_response(self, context, **response_kwargs):
         response = super(BasePostView, self).render_to_response(context, **response_kwargs)
@@ -92,7 +94,6 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
     model = Post
     template_name = 'blog/detail.html'
     context_object_name = 'POST'
-
     def get(self, request, *args, **kwargs):
         response = super(PostView, self).get(request, *args, **kwargs)
         self.pv_uv()
@@ -107,7 +108,6 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
             return
         sessionid = self.request.COOKIES['sessionid']
 
-        print '取到sessionid:%s' % sessionid
         pv_key = 'pv_key:%s,%s' % (post_path, sessionid)
         uv_key = 'uv_key:%s,%s' % (post_path, sessionid)
         if not cache.get(pv_key):

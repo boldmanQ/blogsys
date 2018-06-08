@@ -1,58 +1,96 @@
 {% extends "./base.html" %}
 {% load static %}
 
-{% block style%}
-<link href="{% static 'css/prettify.css' %}" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{% static 'css/desert.css' %}">
+{% block style %}
+    <link href="{% static 'css/prettify.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/desert.css' %}">
 
-<style>
-.linenums li {
-    background-color: inherit;
-}
-</style>
+    <style>
+        .linenums li {
+            background-color: inherit;
+        }
+    </style>
 {% endblock %}
 
 
 {% block content %}
-<nav aria-label="breadcrumb" role="navigation">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">首页</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'category' POST.category_id %}">{{ POST.category }}</a></li
-        <li class="breadcrumb-item active" aria-current="page">正文</li>
-    </ol>
-</nav>
-
-
-<div class="post-element">
-    <h3 class="post-element-title">
-        {{ post.title }}
-    </h3>
-
-    <nav class="nav">
-        分类:<a class="nav-link active post-element-nav" href="{% url 'category' POST.category_id %}">{{ POST.category.name }}</a>
-        标签:<a class="nav-link cative post-element-nav" href="#">
-            {% for tag in POST.tag.all %} {{ tag.name }} {% endfor %}
-        </a>
-        作者:<a class="nav-link active post-element-nav" href="#">{{ POST.owner }}</a>
-        创建时间:<a class="nav-link disabled post-element-nav" href="#">{{ POST.created_time }}</a>
-        访问量:<a class="nav-link active post-element-nav" href="#">{{ POST.pv }}/{{ POST.uv }}</a>
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">首页</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'category' POST.category_id %}">{{ POST.category }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">正文</li>
+        </ol>
     </nav>
 
-    <article class="content">
-        {% autoescape off %}
-        {{ POST.content_html }}
-        {% endautoescape %}
-    </article>
-    {% include 'comment/gitalk_comment.html' %}
-</div>
+
+    <div class="post-element">
+        <h3 class="post-element-detail-title">
+            {{ POST.title }}
+        </h3>
+        <div class="post-element-detail-metainfo">
+            <table>
+            <tr>
+                <td class="col-td">
+                    <span class="post-meta-panel">
+                            <a class="post-element-metainfo" href="{% url 'category' POST.category_id %}">
+                                <i class="fa fa-tag">{{ POST.category.name }}</i>
+                            </a>
+                    </span>
+                </td>
+                <td class="col-td">
+                    <span class="post-meta-panel">
+                        <a class="post-element-metainfo" href="{% url 'author' POST.owner_id %}">
+                            <i class="fa fa-user">{{ POST.owner }}</i>
+                        </a>
+                    </span>
+                </td>
+                <td class="col-td">
+                    <span class="post-meta-panel">
+                        <time class="post-element-detail-metainfo" datetime="{{ POST.created_time }}" title="{{ POST.created_time }}">
+                            <i class="fa fa-calendar-alt">{{ POST.created_time | date:"Y年m月j日" }}</i>
+                        </time>
+                    </span>
+                </td>
+                <td class="col-td">
+                    <span class="post-meta-panel">
+                        <b class="post-element-detail-metainfo">
+                    <i class="fa fa-eye">
+                        {{ POST.pv }}/{{ POST.uv }}
+                    </i></b>
+                    </span>
+                </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <span class="post-meta-panel">
+                            <b class="post-element-detail-metainfo">
+                                <i class="fa fa-hashtag">
+                                    {% for tag in POST.tag.all %}
+                                    {{ tag }}
+                                    {% endfor %}
+                                </i>
+                            </b>
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr>
+        <article class="content">
+            {% autoescape off %}
+                {{ POST.content_html }}
+            {% endautoescape %}
+        </article>
+        {% include 'comment/gitalk_comment.html' %}
+    </div>
 {% endblock %}
 
 
-{% block javascript%}
-<script src="{% static 'js/prettify.js' %}"></script>
-<script>
-window.onload = function(){
-    PR.prettyPrint();
-}
-</script>
+{% block javascript %}
+    <script src="{% static 'js/prettify.js' %}"></script>
+    <script>
+        window.onload = function () {
+            PR.prettyPrint();
+        }
+    </script>
 {% endblock %}

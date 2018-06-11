@@ -29,51 +29,56 @@
         </h3>
         <div class="post-element-detail-metainfo">
             <table>
-            <tr>
-                <td class="col-td">
+                <tr>
+                    <td class="col-td">
                     <span class="post-meta-panel">
                             <a class="post-element-metainfo" href="{% url 'category' POST.category_id %}">
                                 <i class="fa fa-tag">{{ POST.category.name }}</i>
                             </a>
                     </span>
-                </td>
-                <td class="col-td">
+                    </td>
+                    <td class="col-td">
                     <span class="post-meta-panel">
                         <a class="post-element-metainfo" href="{% url 'author' POST.owner_id %}">
                             <i class="fa fa-user">{{ POST.owner }}</i>
                         </a>
                     </span>
-                </td>
-                <td class="col-td">
+                    </td>
+                    <td class="col-td">
                     <span class="post-meta-panel">
-                        <time class="post-element-detail-metainfo" datetime="{{ POST.created_time }}" title="{{ POST.created_time }}">
+                        <time class="post-element-detail-metainfo" datetime="{{ POST.created_time }}"
+                              title="{{ POST.created_time }}">
                             <i class="fa fa-calendar-alt">{{ POST.created_time | date:"Y年m月j日" }}</i>
                         </time>
                     </span>
-                </td>
-                <td class="col-td">
+                    </td>
+                    <td class="col-td">
                     <span class="post-meta-panel">
                         <b class="post-element-detail-metainfo">
                     <i class="fa fa-eye">
                         {{ POST.pv }}/{{ POST.uv }}
                     </i></b>
                     </span>
-                </td>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="4">
-                        <span class="post-meta-panel">
-                            <b class="post-element-detail-metainfo">
-                                <i class="fa fa-hashtag">
-                                    {% for tag in POST.tag.all %}
-                                    {{ tag }}
-                                    {% endfor %}
-                                </i>
-                            </b>
-                        </span>
+                        {% for tag in POST.tag.all %}
+                            <span class="badge badge-pill  badge-secondary">
+                                    <i class="fa fa-hashtag">{{ tag }}</i>
+                                    </span>
+                        {% endfor %}
+
                     </td>
                 </tr>
             </table>
+        </div>
+
+        <div class="post-element-desc">
+            <strong>摘要:</strong>
+            <p>
+                {{ post.describe }}
+            </p>
         </div>
         <hr>
         <article class="content">

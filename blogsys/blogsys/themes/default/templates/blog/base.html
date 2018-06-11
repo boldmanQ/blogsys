@@ -19,7 +19,7 @@
         <header class="fixed-top">
             <div class="container">
                 <div class="row">
-                    <div class="col-9">
+                    <div class="col-8">
                         <nav class="nav">
                             <a class="logo" href="/">归纳演绎</a>
                             <a class="index" href="/">首页</a>
@@ -29,9 +29,9 @@
                             {% endfor %}
                         </nav>
                     </div>
-                    <div class="col-3">
+                    <div class="col-4">
                         <form action='/' method="GET" class="input-group search">
-                            <input type="text" name="query" class="form-control" placeholder="Search for..." aria-label="Search for...">
+                            <input type="text" name="query" class="form-control" placeholder="Search for..." aria-label="Search for..." width="50">
                             <span class="input-group-btn">
                                 <input type="submit" class="btn btn-secondary" value="Go!"/>
                             </span>
@@ -43,14 +43,14 @@
 
         <div class="container main">
             <div class="row">
-                <div class="col-sm-8 left-side">
+                <div class="col-8 left-side">
 {#                    <div class="inner">#}
                         {% block content %}
                         {% endblock %}
 {#                    </div>#}
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-4">
                     <div class="container right-side">
                         {% for sidebar in SIDEBAR %}
                             <div>
@@ -70,11 +70,12 @@
                                     <div class="sidebar-title">
                                         {{ sidebar.title }}
                                     </div>
-                                    <ul>
-                                    {% for new_post in NEW_POST %}
-                                        <li><a href="{% url 'detail' new_post.id %}">{{ new_post.title }}</a></li>
-                                    {% endfor %}
-                                    </ul>
+                                    <nav class="nav flex-column">
+                                        {% for new_post in NEW_POST %}
+                                        <a class="nav-link" href="{% url 'detail' new_post.id %}">{{ new_post.title }}</a>
+                                            {% endfor %}
+                                    </nav>
+
                         </aside>
 
                                 {% elif sidebar.display_type == 3 %}
@@ -82,11 +83,11 @@
                                     <div class="sidebar-title">
                                         {{ sidebar.title }}
                                     </div>
-                                    <ul>
-                                    {% for hot_post in HOT_POST %}
-                                        <li><a href="{% url 'detail' hot_post.id %}">{{ hot_post.title }}</a></li>
-                                    {% endfor %}
-                                    </ul>
+                                    <nav class="nav flex-column">
+                                        {% for hot_post in hot_POST %}
+                                        <a class="nav-link" href="{% url 'detail' hot_post.id %}">{{ hot_post.title }}</a>
+                                            {% endfor %}
+                                    </nav>
                         </aside>
                                 {% endif %}
                             </div>
@@ -102,28 +103,33 @@
                     <div class="col-sm-4">
                         <div class="widget">
                             <a class="widget-a-title" href="{% url 'links'  %}"><h4 class="title">友链</h4></a>
-                        <div class="footer-friend-links">
-                            {% for link in LINKS %}
-                                <a href="{{ link.href }}" title="{{ link.title }}">{{ link.title }}</a>
-                            {% endfor %}
+                             <nav class="nav">
+                                {% for link in LINKS %}
+                                    <a class="nav-link" href="{{ link.href }}" title="{{ link.title }}">{{ link.title }}</a>
+                                {% endfor %}
+                            </nav>
                         </div>
                     </div>
-                        </div>
+
                     <div class="col-sm-4">
                         <div class="widget">
                             <h4 class="title">其他分类</h4>
-                        <div class="footer-nonav-category">
-                            {% for category_no_nav in NO_NAVIGATION_CATEGORY %}
-                                <a href={% url 'category' category_no_nav.id %}>{{ category_no_nav }}</a>
-                            {% endfor %}
-                        </div>
+                            <nav class="nav">
+                                {% for category_no_nav in NO_NAVIGATION_CATEGORY %}
+                                <a class="nav-link" href={% url 'category' category_no_nav.id %}>{{ category_no_nav }}</a>
+                                {% endfor %}
+                            </nav>
                         </div>
                     </div>
+
                     <div class="col-sm-4">
                         <div class="widget">
                             <h4 class="title">声明</h4>
                         <div class="footer-explain">
                             <p>基于Nginx+Gunicorn+Supervisord+ Django1.11+ Python2.7构建</p>
+                            <p>
+                                <a href="/api"><b>API Root</b></a>
+                            </p>
                             <strong>Copyright © 2018 <a href="www.boldman.top">boldman.top</a></strong>
                         </div>
                         </div>

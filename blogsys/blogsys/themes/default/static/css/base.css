@@ -40,6 +40,9 @@ header a.logo:hover {
 
 header .search {
     margin-top: 5px;
+    margin-left: 15px;
+    margin-right: 30px;
+    padding-right: 32px;
 }
 
 /* 主体部分 */
@@ -124,6 +127,7 @@ nav.category a {
 
 .post-element article {
     margin-top: 10px;
+    padding: 2.5rem;
 }
 
 .power {
@@ -174,12 +178,19 @@ nav.category a {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.nav-link {
+    border-top: 1px solid #dddddd;
+    color: #000;
+    text-decoration: none;
 
-.btn {
+}
+
+
+.btn-postread {
     display: inline-block;
     padding: 6px 12px;
     margin-bottom: 0;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: 400;
     line-height: 1.42857143;
     text-align: center;
@@ -189,17 +200,10 @@ nav.category a {
     cursor: pointer;
     user-select: none;
     background-image: none;
-    border: 1px solid transparent;
     border-radius: 4px;
-}
-
-.btn-postread {
     border: 1px solid #473be6;
     background: #5351e6;
     color: #ffffff;
-    -webkit-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
 }
 
 .btn-postread:hover {
@@ -242,39 +246,23 @@ nav.category a {
 .footer-bar {
     color: #fff;
     padding-top: 20px;
-    background-color: #000000;
+    background-color: #3d4450;
     padding-bottom: 30px;
 }
-
+.footer-bar a {
+    color: #fff;
+}
+.footer-bar a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: #000000;
+}
 .widget .title {
     margin-top: 0;
     padding-bottom: 7px;
     margin-bottom: 21px;
     position: relative;
 }
-.footer-nonav-category a {
-    padding: 2px 7px;
-    color: #959595;
-    line-height: 1.5em;
-    display: inline-block;
-    margin: 0 7px 7px 0;
-}
-.footer-nonav-category a:hover {
-    color: #ffffff;
-    background: #000000;
-    text-decoration: none;
-    text-shadow: none;
-}
-.footer-friend-links a {
-    padding: 2px 7px;
-    color: #959595;
-    line-height: 1.5em;
-    display: inline-block;
-    margin: 0 7px 7px 0;
-}
-.footer-friend-links a:hover {
-    color: #ffffff;
-    background: #000000;
-    text-shadow: none;
-    text-decoration: none;
+.footer-bar .nav-link {
+    border: 0px;
 }

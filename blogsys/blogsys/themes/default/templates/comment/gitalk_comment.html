@@ -12,7 +12,7 @@ var gitalk = new Gitalk({
         repo: 'comment_storage',
         owner: 'boldmanQ',
         admin: ['boldmanQ'],
-        id: 'window.location.pathname',
+        id: location.pathname,
         distractionFreeMode: false
       });
 gitalk.render('gitalk-container');

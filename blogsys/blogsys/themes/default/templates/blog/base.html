@@ -84,7 +84,7 @@
                                         {{ sidebar.title }}
                                     </div>
                                     <nav class="nav flex-column">
-                                        {% for hot_post in hot_POST %}
+                                        {% for hot_post in HOT_POST %}
                                         <a class="nav-link" href="{% url 'detail' hot_post.id %}">{{ hot_post.title }}</a>
                                             {% endfor %}
                                     </nav>

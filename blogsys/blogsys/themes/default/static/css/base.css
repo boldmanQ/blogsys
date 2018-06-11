@@ -115,6 +115,11 @@ nav.category a {
     text-decoration: none;
     /*border-bottom: 1px solid #ccc;*/
 }
+.post-element-title a:hover{
+    color: #b94a48;
+    text-decoration: none;
+    /*border-bottom: 1px solid #ccc;*/
+}
 
 .post-element-desc {
     padding: 0.5rem;
@@ -183,6 +188,9 @@ nav.category a {
     color: #000;
     text-decoration: none;
 
+}
+.nav-link:hover {
+    color: #b94a48;
 }
 
 

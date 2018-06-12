@@ -12,7 +12,7 @@ class MyStorage(FileSystemStorage):
         # 处理逻辑
         if 'image' in content.content_type:
             # 加水印
-            image = self.watermark_with_text(content, '@@@@@@@@@', 'black')
+            image = self.watermark_with_text(content, 'boldman.top', 'black')
             content = self.convert_image_to_file(image, name)
 
         return super(MyStorage, self).save(name, content, max_length=max_length)
@@ -29,10 +29,10 @@ class MyStorage(FileSystemStorage):
         draw = ImageDraw.Draw(imageWatermark)
         width, height = image.size
         margin = 10
-        font = ImageFont.truetype(fontfamily, int(height / 20))
+        font = ImageFont.truetype(fontfamily, int(height / 40))
         textWidth, textHeight = draw.textsize(text, font)
-        x = (width - textWidth - margin) / 2
-        y = height - textHeight - margin
+        x = width - textWidth - margin
+        y = margin
 
         draw.text((x, y), text, color, font)
 

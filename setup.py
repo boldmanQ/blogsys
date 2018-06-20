@@ -3,11 +3,11 @@ packages = find_packages('blogsys')
 print packages
 setup(
     name='blogsys',
-    version='0.4',
+    version='1.2.0',
     description='Blog System base on Django',
     author='boldmanQ',
     author_email='475131479@qq.com',
-    url='https://www.the5fire.com',
+    url='https://www.boldman.top',
     packages=find_packages('blogsys'),
     package_dir={'': 'blogsys'},
 #    package_data={

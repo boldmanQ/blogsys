@@ -27,7 +27,7 @@ class CommonMixin(object):
 
         recently_posts = Post.objects.filter(status=1)[:7]
         # recently_comments = Comment.objects.all()[:5]
-        hot_posts = Post.objects.order_by('-pv')[:7]
+        hot_posts = Post.objects.filter(status=1).order_by('-pv')[:7]
         links = Link.objects.all()
 
         extra_context = {
@@ -62,8 +62,8 @@ class IndexView(BasePostView):
         query = self.request.GET.get('query')
         qs = super(IndexView, self).get_queryset()
         if not query:
-            return qs
-        res = qs.filter(title__icontains=query)
+            return qs.filter(status=1)
+        res = qs.filter(title__icontains=query).filter(status=1)
         return res
 
     def get_context_data(self, **kwargs):

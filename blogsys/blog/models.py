@@ -16,7 +16,8 @@ class Post(models.Model):
 
     title = models.CharField(max_length=50, null=True, blank=True, verbose_name='标题')
     describe = models.CharField(max_length=256, blank=True, verbose_name='摘要')
-    content = models.TextField(verbose_name='正文', help_text='正文必须为非markdown格式')
+    content = models.TextField(verbose_name='正文', help_text='正文必须为非markdown格式', blank=True)
+    markdown_text = models.TextField(verbose_name='正文', help_text='正文必须为非markdown格式', blank=True)
     content_html = models.TextField(verbose_name='markdown形式正文', default='', blank=True)
     is_markdown = models.BooleanField(default=True, verbose_name='是否启用markdown解释')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
@@ -47,8 +48,8 @@ class Post(models.Model):
                     'css_class': 'prettyprint linenums',
                 }
             }
+            self.content_html = markdown.markdown(self.markdown_text, extensions=['codehilite'], extension_configs=config)
             self.content = self.content_html
-            self.content_html = markdown.markdown(self.content_html, extensions=['codehilite'], extension_configs=config)
         else:
             self.content_html = self.content
         return super(Post, self).save(*args, **kwargs)

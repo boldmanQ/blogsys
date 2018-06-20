@@ -42,6 +42,7 @@ class PostAdmin(BaseOwnerAdmin):
         ('基础信息', {'fields': [('title', 'category'), 'status', 'tag', 'describe'], }),
         ('文章内容', {'fields': [('content', 'is_markdown'), 'content_html'], 'classes': ['', ]}),
     ]
+    exclude = ['owner', 'content_html']
 
     def get_tag(self, obj):
         '''

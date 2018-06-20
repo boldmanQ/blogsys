@@ -13,7 +13,6 @@ class BaseOwnerAdmin(object):
     1.用来处理文章、分类、标签、侧边栏、友链这些model的owner子段自动补充
     2.用来针对queryset过滤当前用户的数据
     '''
-    exclude = ('owner',)
     def get_list_queryset(self):
         request = self.request
         queryset = super(BaseOwnerAdmin, self).get_list_queryset()

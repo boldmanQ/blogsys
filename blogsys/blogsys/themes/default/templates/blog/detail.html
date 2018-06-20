@@ -4,6 +4,7 @@
 {% block style %}
     <link href="{% static 'css/prettify.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/desert.css' %}">
+    <link href="{% static 'css/prism.css' %}" rel="stylesheet">
 
     <style>
         .linenums li {
@@ -56,7 +57,7 @@
                     <span class="post-meta-panel">
                         <b class="post-element-detail-metainfo">
                     <i class="fa fa-eye">
-                        {{ POST.pv }}/{{ POST.uv }}
+                        {{ POST.pv }}
                     </i></b>
                     </span>
                     </td>
@@ -92,6 +93,7 @@
 
 
 {% block javascript %}
+    <script src="{% static 'js/prism.js' %}"></script>
     <script src="{% static 'js/prettify.js' %}"></script>
     <script>
         window.onload = function () {

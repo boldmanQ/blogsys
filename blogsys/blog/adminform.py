@@ -8,7 +8,7 @@ from django import forms
 class PostAdminForm(forms.ModelForm):
     status = forms.BooleanField(label='是否删除', required=False)
     describe = forms.CharField(widget=forms.Textarea, label='摘要', required=False)
-    content = forms.CharField(widget=CKEditorUploadingWidget())
+    content = forms.CharField(widget=CKEditorUploadingWidget(), required=False)
 
     def clean_status(self):
         if self.cleaned_data['status']:

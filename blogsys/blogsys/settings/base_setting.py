@@ -134,13 +134,14 @@ STATICFILES_DIRS = [
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
+        'extraPlugins': 'codesnippet,uploadimage,prism,widget,lineutils',
         'height': 300,
         'width': 1000,
         'tabSpaces': 4,
     },
 }
 MEDIA_URL = "/media/"
-MEDIA_ROOT = "media_files"
+MEDIA_ROOT = "/data/www/blogsys/media"
 CKEDITOR_UPLOAD_PATH = "images"
 DEFAULT_FILE_STORAGE = 'blogsys.storage.MyStorage'
 REST_FRAMEWORK = {

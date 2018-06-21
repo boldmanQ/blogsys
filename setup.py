@@ -3,7 +3,7 @@ packages = find_packages('blogsys')
 print packages
 setup(
     name='blogsys',
-    version='1.2.0',
+    version='1.2.2',
     description='Blog System base on Django',
     author='boldmanQ',
     author_email='475131479@qq.com',

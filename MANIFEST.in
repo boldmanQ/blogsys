@@ -1,1 +1,1 @@
-recursive-include blogsys *.py *.html *.css *.js
+recursive-include blogsys *.py *.html *.css *.js bg.jpg

@@ -21,9 +21,9 @@ class Post(models.Model):
     content_html = models.TextField(verbose_name='markdown形式正文', default='', blank=True)
     is_markdown = models.BooleanField(default=True, verbose_name='是否启用markdown解释')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
-    category = models.ForeignKey('Category', verbose_name='分类')
+    category = models.ForeignKey('Category', verbose_name='分类', on_delete=models.SET_DEFAULT, default=0)
     tag = models.ManyToManyField('Tag', related_name='mytags', verbose_name='标签', blank=True)
-    owner = models.ForeignKey(User, verbose_name='作者')
+    owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.SET_DEFAULT, default=1)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     pv = models.PositiveIntegerField(verbose_name='访问量', default=0)
     uv = models.PositiveIntegerField(verbose_name='用户量', default=0)
@@ -37,7 +37,7 @@ class Post(models.Model):
     def increase_uv(self):
         return self.__class__.objects.filter(id=self.id).update(uv=F('uv') + 1)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
@@ -67,10 +67,10 @@ class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name='名称')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     is_nav = models.BooleanField(default=False, verbose_name='是否为导航')
-    owner = models.ForeignKey(User, verbose_name='作者')
+    owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.SET_DEFAULT, default=0)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -84,10 +84,10 @@ class Tag(models.Model):
     )
     name = models.CharField(max_length=10, verbose_name='名称')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
-    owner = models.ForeignKey(User, verbose_name='作者')
+    owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.SET_DEFAULT, default=0)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:

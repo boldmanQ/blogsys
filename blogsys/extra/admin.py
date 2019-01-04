@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
-import xadmin
+from django.contrib import admin
 from django.utils.html import format_html
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
-from blogsys.adminx import BaseOwnerAdmin
+from system.admin import BaseOwnerAdmin
 from .models import Link, SideBar
 
 
@@ -24,5 +23,5 @@ class SideBarAdmin(BaseOwnerAdmin):
     list_display = ('title', 'content', 'content', 'owner', 'created_time')
 
 
-xadmin.site.register(Link, LinkAdmin)
-xadmin.site.register(SideBar, SideBarAdmin)
+admin.site.register(Link, LinkAdmin)
+admin.site.register(SideBar, SideBarAdmin)

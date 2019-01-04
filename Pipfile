@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==2.1.4"
+django-crispy-forms = "*"
+django-reversion = "*"
+django-ckeditor = "*"
+django-rest-framework = "*"
+markdown = "*"
+django-debug-toolbar = "*"
+redis = "*"
+mysqlclient = "*"
+pillow = "*"
+coreapi = "*"
+ipdb = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"

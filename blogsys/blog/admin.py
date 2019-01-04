@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-import xadmin
 #from django.utils.html import format_html
 #from django.core.urlresolvers import reverse
+from django.contrib import admin
 
 # Register your models here.
 from .models import Post, Category, Tag
 from .adminform import PostAdminForm
-from blogsys.adminx import BaseOwnerAdmin
+from system.admin import BaseOwnerAdmin
 
 
 class PostAdmin(BaseOwnerAdmin):
@@ -39,10 +37,10 @@ class PostAdmin(BaseOwnerAdmin):
     # save_on_bottom = False
     filter_horizontal = ('tag',)
     fieldsets = [
-        ('基础信息', {'fields': [('title', 'category'), 'status', 'tag', 'describe'], }),
-        ('文章内容', {'fields': [('content', 'is_markdown'), 'content_html'], 'classes': ['', ]}),
+        ('基础信息', {'fields': [('title', 'category'), 'status', 'tag']}),
+        ('文章内容', {'fields': [('describe', 'content', 'is_markdown'), 'content_html']}),
     ]
-    exclude = ['owner', 'content_html']
+    #exclude = ['owner']
 
     def get_tag(self, obj):
         '''
@@ -61,17 +59,17 @@ class PostAdmin(BaseOwnerAdmin):
 
 class CategoryAdmin(BaseOwnerAdmin):
     list_display = ['name', 'created_time', 'status', 'owner']
-    fields = (
-        'name', 'status',
-        'is_nav',
-    )
+    fieldsets = [
+        ('定义标签', {'fields': ['name', 'status', 'is_nav']}),
+    ]
+    exclude = ['owner']
 
 
 class TagAdmin(BaseOwnerAdmin):
     list_display = ['name', 'status', 'owner']
-    fields = ('name', 'status')
+    fields = ('name', 'status', 'owner')
 
 
-xadmin.site.register(Post, PostAdmin)
-xadmin.site.register(Category, CategoryAdmin)
-xadmin.site.register(Tag, TagAdmin)
+admin.site.register(Post, PostAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Tag, TagAdmin)

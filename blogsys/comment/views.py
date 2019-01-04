@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 
 from .forms import CommentForm
 from .models import Comment
-from blogsys.public_mixin import CommentShowMixin
+from system.public_mixin import CommentShowMixin
 # Create your views here.
 
 
@@ -22,8 +22,8 @@ class CommentView(TemplateView, CommentShowMixin):
         comment_form = CommentForm(request.POST)
         target = comment_form.data['target']
         if comment_form.is_valid():
-            print comment_form.data
-            print comment_form.fields
+            print (comment_form.data)
+            print (comment_form.fields)
             comment_form.save()
             succeed = True
             return redirect(target)

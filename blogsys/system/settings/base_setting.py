@@ -22,10 +22,9 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'blog',
     'comment',
-    'config',
-    'blogsys',
+    'extra',
+    'system',
 
-    'xadmin',
     'crispy_forms',
     'reversion',
 
@@ -54,9 +53,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'blogsys.urls'
+ROOT_URLCONF = 'system.urls'
 
-WSGI_APPLICATION = 'blogsys.wsgi.application'
+WSGI_APPLICATION = 'system.wsgi.application'
 
 
 # Database

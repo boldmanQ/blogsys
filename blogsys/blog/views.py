@@ -6,9 +6,9 @@ from django.core.cache import cache
 from django.views.generic import ListView, DetailView
 
 from .models import Post, Tag, Category
-from config.models import SideBar, Link
-from comment.models import Comment
-from blogsys.public_mixin import CommentShowMixin
+from extra.models import SideBar, Link
+#from comment.models import Comment
+from system.public_mixin import CommentShowMixin
 
 
 class CommonMixin(object):

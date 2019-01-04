@@ -38,7 +38,7 @@ class PostAdmin(BaseOwnerAdmin):
     filter_horizontal = ('tag',)
     fieldsets = [
         ('基础信息', {'fields': [('title', 'category'), 'status', 'tag']}),
-        ('文章内容', {'fields': [('describe', 'content', 'is_markdown'), 'content_html']}),
+        ('文章内容', {'fields': [('describe', 'content', 'is_markdown')]}),
     ]
     #exclude = ['owner']
 

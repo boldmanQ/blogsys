@@ -41,7 +41,7 @@ class CommonMixin(object):
         }
 
         extra_context.update(kwargs)
-        return super(CommonMixin, self).get_context_data(**extra_context)
+        return super().get_context_data(**extra_context)
 
 
 class BasePostView(CommonMixin, ListView):
@@ -51,7 +51,7 @@ class BasePostView(CommonMixin, ListView):
     paginate_by = 5
 
     def render_to_response(self, context, **response_kwargs):
-        response = super(BasePostView, self).render_to_response(context, **response_kwargs)
+        response = super().render_to_response(context, **response_kwargs)
         if 'sessionid' not in self.request.COOKIES:
             response.set_cookie('sessionid', uuid.uuid4().hex)
         return response
@@ -60,7 +60,7 @@ class BasePostView(CommonMixin, ListView):
 class IndexView(BasePostView):
     def get_queryset(self):
         query = self.request.GET.get('query')
-        qs = super(IndexView, self).get_queryset()
+        qs = super().get_queryset()
         if not query:
             return qs.filter(status=1)
         res = qs.filter(title__icontains=query).filter(status=1)
@@ -68,12 +68,12 @@ class IndexView(BasePostView):
 
     def get_context_data(self, **kwargs):
         query = self.request.GET.get('query')
-        return super(IndexView, self).get_context_data(query=query)
+        return super().get_context_data(query=query)
 
 
 class CategoryView(BasePostView):
     def get_queryset(self):
-        qs = super(CategoryView, self).get_queryset()
+        qs = super().get_queryset()
         cate_id = self.kwargs['category_id']
         qs = qs.filter(category_id=cate_id)
         return qs
@@ -95,7 +95,7 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
     template_name = 'blog/detail.html'
     context_object_name = 'POST'
     def get(self, request, *args, **kwargs):
-        response = super(PostView, self).get(request, *args, **kwargs)
+        response = super().get(request, *args, **kwargs)
         self.pv_uv()
         return response
 
@@ -121,7 +121,7 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
 class AuthorView(BasePostView):
     def get_queryset(self):
         author_id = self.kwargs.get('author_id')
-        qs = super(AuthorView, self).get_queryset()
+        qs = super().get_queryset()
         if author_id:
             qs = qs.filter(owner_id=author_id)
         return qs

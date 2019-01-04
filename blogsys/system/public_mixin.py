@@ -17,4 +17,4 @@ class CommentShowMixin(object):
             'comment_form': CommentForm(initial={'target': self.request.path}),
             'comment_list': self.get_comments()
         })
-        return super(CommentShowMixin, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)

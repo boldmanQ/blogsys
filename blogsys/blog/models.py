@@ -52,7 +52,7 @@ class Post(models.Model):
             self.content = self.content_html
         else:
             self.content_html = self.content
-        return super(Post, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = verbose_name_plural = '文章'
@@ -67,7 +67,7 @@ class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name='名称')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
     is_nav = models.BooleanField(default=False, verbose_name='是否为导航')
-    owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.SET_DEFAULT, default=0)
+    owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.SET_DEFAULT, default=1)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
     def __str__(self):
@@ -84,7 +84,7 @@ class Tag(models.Model):
     )
     name = models.CharField(max_length=10, verbose_name='名称')
     status = models.PositiveIntegerField(default=1, choices=STATUS_ITEMS, verbose_name='状态')
-    owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.SET_DEFAULT, default=0)
+    owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.SET_DEFAULT, default=1)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
     def __str__(self):

@@ -17,4 +17,4 @@ class LinkView(CommonMixin, ListView):
         kwargs.update({
             'comment_form': CommentForm
         })
-        return super(LinkView, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)

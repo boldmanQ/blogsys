@@ -15,7 +15,7 @@ class MyStorage(FileSystemStorage):
             image = self.watermark_with_text(content, 'boldman.top', 'black')
             content = self.convert_image_to_file(image, name)
 
-        return super(MyStorage, self).save(name, content, max_length=max_length)
+        return super().save(name, content, max_length=max_length)
 
     def convert_image_to_file(self, image, name):
         temp = StringIO()

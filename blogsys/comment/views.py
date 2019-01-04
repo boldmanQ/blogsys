@@ -16,14 +16,14 @@ class CommentView(TemplateView, CommentShowMixin):
     http_method_names = ['POST']
 
     def get(self, request, *args, **kwargs):
-        return super(CommentView, self).get(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         comment_form = CommentForm(request.POST)
         target = comment_form.data['target']
         if comment_form.is_valid():
-            print (comment_form.data)
-            print (comment_form.fields)
+            print(comment_form.data)
+            print(comment_form.fields)
             comment_form.save()
             succeed = True
             return redirect(target)

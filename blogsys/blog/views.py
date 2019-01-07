@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import uuid
 
 from django.core.cache import cache
@@ -74,8 +73,8 @@ class IndexView(BasePostView):
 class CategoryView(BasePostView):
     def get_queryset(self):
         qs = super().get_queryset()
-        cate_id = self.kwargs['category_id']
-        qs = qs.filter(category_id=cate_id)
+        category = self.kwargs['category_name']
+        qs = qs.filter(category__name=category)
         return qs
 
 
@@ -94,6 +93,7 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
     model = Post
     template_name = 'blog/detail.html'
     context_object_name = 'POST'
+
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
         self.pv_uv()
@@ -120,8 +120,9 @@ class PostView(CommonMixin, CommentShowMixin, DetailView):
 
 class AuthorView(BasePostView):
     def get_queryset(self):
-        author_id = self.kwargs.get('author_id')
+        author = self.kwargs.get('username')
         qs = super().get_queryset()
-        if author_id:
-            qs = qs.filter(owner_id=author_id)
+        #import ipdb;ipdb.set_trace()
+        if author:
+            qs = qs.filter(owner__username=author)
         return qs

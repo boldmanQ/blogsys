@@ -1,6 +1,5 @@
 import debug_toolbar
 #import silk
-import re
 #from xadmin.plugins import xversion
 from django.contrib import admin
 from rest_framework import routers, documentation
@@ -36,10 +35,10 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     path('', IndexView.as_view(), name="index"),
     #url(r'^$', cache_page(60)(IndexView.as_view()), name="index"),
-    path('category/<int:category_id>/', CategoryView.as_view(), name='category'),
+    path('category/<str:category_name>/', CategoryView.as_view(), name='category'),
     path('tag/<int:tag_id>/', TagView.as_view(), name='tag'),
-    path('post/<int:pk>/', PostView.as_view(), name='detail'),
-    path('author/<int:author_id>/', AuthorView.as_view(), name='author'),
+    path('post/<slug:slug>/', PostView.as_view(), name='detail'),
+    path('author/<str:author_username>/', AuthorView.as_view(), name='author'),
     path('links/', LinkView.as_view(), name='links'),
     path('admin/', admin.site.urls),
     # url(r'^cus_admin/', custom_site.urls),

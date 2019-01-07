@@ -6,6 +6,7 @@ from django.db.models import F
 from django.db import models
 from django.contrib.auth.models import User
 
+from uuslug import slugify
 from ckeditor.fields import RichTextField
 
 
@@ -17,6 +18,7 @@ class Post(models.Model):
     )
 
     title = models.CharField(max_length=50, null=True, blank=True, verbose_name='标题')
+    slug = models.SlugField(editable=False, default='')
     describe = models.CharField(max_length=256, blank=True, verbose_name='摘要')
     content = RichTextField()
     content_html = models.TextField(verbose_name='markdown形式正文', default='', blank=True)
@@ -52,6 +54,7 @@ class Post(models.Model):
             self.content_html = markdown.markdown(self.content, extensions=['codehilite'], extension_configs=config)
         else:
             self.content_html = self.content
+        self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
 
     class Meta:

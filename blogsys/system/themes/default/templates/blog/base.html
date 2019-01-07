@@ -24,7 +24,7 @@
                             <a class="index" href="/">首页</a>
 
                             {% for category_nav in  NAVIGATION_CATEGORY %}
-                            <a class="link" href="{% url 'category' category_nav.id %}">{{ category_nav }}</a>
+                            <a class="link" href="{% url 'category' category_nav.name %}">{{ category_nav }}</a>
                             {% endfor %}
                         </nav>
                     </div>
@@ -71,7 +71,7 @@
                                     </div>
                                     <nav class="nav flex-column">
                                         {% for new_post in NEW_POST %}
-                                        <a class="nav-link" href="{% url 'detail' new_post.id %}">{{ new_post.title }}</a>
+                                        <a class="nav-link" href="{% url 'detail' new_post.slug %}">{{ new_post.title }}</a>
                                             {% endfor %}
                                     </nav>
 
@@ -84,7 +84,7 @@
                                     </div>
                                     <nav class="nav flex-column">
                                         {% for hot_post in HOT_POST %}
-                                        <a class="nav-link" href="{% url 'detail' hot_post.id %}">{{ hot_post.title }}</a>
+                                        <a class="nav-link" href="{% url 'detail' hot_post.slug %}">{{ hot_post.title }}</a>
                                             {% endfor %}
                                     </nav>
                         </aside>

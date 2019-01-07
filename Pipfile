@@ -16,6 +16,7 @@ mysqlclient = "*"
 pillow = "*"
 coreapi = "*"
 ipdb = "*"
+gunicorn = "*"
 
 [dev-packages]
 

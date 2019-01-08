@@ -19,6 +19,7 @@ ipdb = "*"
 gunicorn = "*"
 django-uuslug = "*"
 django-redis = "*"
+hiredis = "*"
 
 [dev-packages]
 

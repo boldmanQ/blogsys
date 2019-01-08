@@ -18,6 +18,7 @@ coreapi = "*"
 ipdb = "*"
 gunicorn = "*"
 django-uuslug = "*"
+django-redis = "*"
 
 [dev-packages]
 

@@ -19,7 +19,7 @@
             <div class="post-element-metainfo">
                 <span class="post-meta-panel">
 
-                        <a class="post-element-metainfo" href="{% url 'category' post.category_id %}">
+                        <a class="post-element-metainfo" href="{% url 'category' post.category.name %}">
                             <i class="fa fa-tag">{{ post.category.name }}</i>
                         </a>
 

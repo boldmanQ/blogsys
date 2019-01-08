@@ -115,7 +115,7 @@
                             <h4 class="title">其他分类</h4>
                             <nav class="nav">
                                 {% for category_no_nav in NO_NAVIGATION_CATEGORY %}
-                                <a class="nav-link" href={% url 'category' category_no_nav.id %}>{{ category_no_nav }}</a>
+                                <a class="nav-link" href={% url 'category' category_no_nav.name %}>{{ category_no_nav }}</a>
                                 {% endfor %}
                             </nav>
                         </div>

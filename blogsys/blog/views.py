@@ -74,7 +74,7 @@ class CategoryView(BasePostView):
     def get_queryset(self):
         qs = super().get_queryset()
         category = self.kwargs['category_name']
-        qs = qs.filter(category__name=category)
+        qs = qs.filter(category__name=category).filter(status=1)
         return qs
 
 
@@ -85,7 +85,7 @@ class TagView(BasePostView):
             tag = Tag.objects.get(id=tag_id)
         except Tag.DoesNotExist:
             return []
-        posts = tag.mytags.all()
+        posts = tag.mytags.all().filter(status=1)
         return posts
 
 
@@ -124,5 +124,5 @@ class AuthorView(BasePostView):
         qs = super().get_queryset()
         #import ipdb;ipdb.set_trace()
         if author:
-            qs = qs.filter(owner__username=author)
-        return qs
+            qs = qs.filter(owner__username=author).filter(status=1)
+        return qs.filter(status=1)

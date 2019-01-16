@@ -56,7 +56,7 @@ CKEDITOR_CONFIGS = {
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "/data/www/blogsys/media"
 CKEDITOR_UPLOAD_PATH = "images"
-DEFAULT_FILE_STORAGE = 'blogsys.storage.MyStorage'
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 24

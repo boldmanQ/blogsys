@@ -9,7 +9,7 @@ from .models import Link, SideBar
 
 
 class LinkAdmin(BaseOwnerAdmin):
-    list_display = ('title', 'href', 'weight', 'owner', 'edit_operator')
+    list_display = ('title', 'href', 'weight', 'owner')
 
 
 class SideBarAdmin(BaseOwnerAdmin):

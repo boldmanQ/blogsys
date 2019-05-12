@@ -1,5 +1,6 @@
 *.sqlite3
 # Byte-compiled / optimized / DLL files
+connections_secret.py
 __pycache__/
 *.py[cod]
 *$py.class

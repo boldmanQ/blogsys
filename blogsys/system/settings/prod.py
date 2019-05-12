@@ -1,30 +1,7 @@
 from .base_setting import * # noqa
-
+from .connections_secret import *
 #import cache_toolbar.panels.redis
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blog',
-        'USER': 'blog',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': 3306,
-        'OPTIONS': {'charset': 'utf8'}
-    },
-}
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/',
-        'TIMEOUT': 60,
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
-        }
-    }
-}
 DEBUG = False
 
 #INSTALLED_APPS += [ # noqa
